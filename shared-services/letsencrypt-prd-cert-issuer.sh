@@ -5,9 +5,9 @@ read -p 'Enter Namespace: ' NAMESPACE
 read -p 'Enter Email: ' EMAIL
 read -p 'Enter DomainName: ' DOMAIN
 read -p 'Enter IngressName: ' INGRESSNAME
-read -sp 'Enter Secret: ' SECRET
+#read -sp 'Enter Secret: ' SECRET
 
-if [ "$SECRET" = allowme ]; then
+#if [ "$SECRET" = allowme ]; then
 
 cat << EOF >> production-issuer.yaml
 apiVersion: cert-manager.io/v1
@@ -53,4 +53,4 @@ EOF
 kubectl create -f production-certificate.yaml -n $NAMESPACE
 #rm -f  production-certificate.yaml
 
-fi
+#fi

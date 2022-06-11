@@ -5,9 +5,9 @@ read -p 'Enter Namespace: ' NAMESPACE
 read -p 'Enter Email: ' EMAIL
 read -p 'Enter DomainName: ' DOMAIN
 read -p 'Enter IngressName: ' INGRESSNAME
-read -sp 'Enter Secret: ' SECRET
+#read -sp 'Enter Secret: ' SECRET
 
-if [ "$SECRET" = allowme ]; then
+#if [ "$SECRET" = allowme ]; then
 cat << EOF >> staging-issuer.yaml
 apiVersion: cert-manager.io/v1
 kind: Issuer
@@ -29,7 +29,7 @@ EOF
 
 kubectl create -f staging-issuer.yaml -n $NAMESPACE
 
-#rm -f staging-issuer.yaml
+#rm -f $NAMESPACE/staging-issuer.yaml
 
 
 
@@ -54,4 +54,4 @@ EOF
 kubectl create -f staging-certificate.yaml -n $NAMESPACE
 #rm -f  staging-certificate.yaml
 
-fi
+#fi

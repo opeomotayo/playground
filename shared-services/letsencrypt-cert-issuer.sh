@@ -5,9 +5,9 @@ read -p 'Enter Namespace: ' NAMESPACE
 read -p 'Enter Email: ' EMAIL
 read -p 'Enter DomainName: ' DOMAIN
 read -p 'Enter IngressName: ' INGRESSNAME
-read -sp 'Enter Secret: ' SECRET
+#read -sp 'Enter Secret: ' SECRET
 
-if [ "$SECRET" = allowme ]; then
+#if [ "$SECRET" = allowme ]; then
 cat << EOF >> staging-issuer.yaml
 apiVersion: cert-manager.io/v1
 kind: Issuer
@@ -29,7 +29,7 @@ EOF
 
 kubectl create -f staging-issuer.yaml -n $NAMESPACE
 
-#rm -f staging-issuer.yaml
+rm -f staging-issuer.yaml
 
 cat << EOF >> production-issuer.yaml
 apiVersion: cert-manager.io/v1
@@ -52,7 +52,7 @@ EOF
 
 kubectl create -f production-issuer.yaml -n $NAMESPACE
 
-#rm -f production-issuer.yaml
+rm -f production-issuer.yaml
 
 kubectl patch ingress $INGRESSNAME -p '{"metadata": {"annotations":{"cert-manager.io/issuer":"letsencrypt-staging"}}}' -n $NAMESPACE
 
@@ -73,7 +73,7 @@ spec:
 
 EOF
 kubectl create -f staging-certificate.yaml -n $NAMESPACE
-#rm -f  staging-certificate.yaml
+rm -f  staging-certificate.yaml
 
 kubectl patch ingress $INGRESSNAME -p '{"metadata": {"annotations":{"cert-manager.io/issuer":"letsencrypt-production"}}}' -n $NAMESPACE
 
@@ -94,6 +94,6 @@ spec:
     
 EOF
 kubectl create -f production-certificate.yaml -n $NAMESPACE
-#rm -f  production-certificate.yaml
+rm -f  production-certificate.yaml
 
-fi
+#fi
