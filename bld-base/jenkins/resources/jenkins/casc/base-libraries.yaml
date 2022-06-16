@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jenkins-base-libraries
+data:
+  1-global-libraries.yaml: |-
+    unclassified:
+      globalLibraries:
+        libraries:
+        - defaultVersion: "master"
+          implicit: true
+          includeInChangesets: false
+          name: "msp"
+          retriever:
+            legacySCM:
+              scm:
+                git:
+                  branches:
+                  - name: "^${library.msp.version}"
+                  buildChooser: "default"
+                  userRemoteConfigs:
+                  - credentialsId: "gh-svc-nable-logicnow"
+                    url: "https://github.com/logicnow/msp-jenkins-lib.git"

@@ -1,0 +1,146 @@
+apiVersion: jenkins.io/v1alpha2
+kind: Jenkins
+metadata:
+  name: jenkins
+spec:
+  # Master represents Jenkins master pod properties and Jenkins plugins. Every single change here requires a pod restart.
+  master:
+    containers:
+    - image: jenkins/jenkins:2.332.2-lts-alpine
+      imagePullPolicy: Always
+      livenessProbe:
+        failureThreshold: 20
+        httpGet:
+          path: /login
+          port: http
+          scheme: HTTP
+        initialDelaySeconds: 100
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 8
+      name: jenkins-master
+      readinessProbe:
+        failureThreshold: 60
+        httpGet:
+          path: /login
+          port: http
+          scheme: HTTP
+        initialDelaySeconds: 120
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 8
+      resources:
+        limits:
+          cpu: 1000m
+          memory: 1Gi
+        requests:
+          cpu: 1
+          memory: 500Mi
+    - env:
+      - name: BACKUP_DIR
+        value: /backup
+      - name: JENKINS_HOME
+        value: /jenkins-home
+      - name: BACKUP_COUNT
+        value: "3"
+      image: virtuslab/jenkins-operator-backup-pvc:v0.1.0
+      imagePullPolicy: IfNotPresent
+      name: backup
+      resources:
+        limits:
+          cpu: 1000m
+          memory: 1Gi
+        requests:
+          cpu: 100m
+          memory: 500Mi
+      volumeMounts:
+      - mountPath: /jenkins-home
+        name: jenkins-home
+      - mountPath: /backup
+        name: backup
+    disableCSRFProtection: false
+    securityContext:
+      fsGroup: 1000
+      runAsUser: 1000
+    volumes:
+    - name: backup
+      persistentVolumeClaim:
+        claimName: jenkins-backup
+  # ValidateSecurityWarnings enables or disables validating potential security warnings in Jenkins plugins via admission webhooks.
+  validateSecurityWarnings: false
+  seedJobs: []
+  # Notifications
+  # notifications:
+  #   level: info
+  #   verbose: false
+  #   name: 
+  #   teams:
+  #     webHookURLSecretKeySelector:
+  #       secret:
+  #         name: 
+  #       key:
+  # Service is Kubernetes service of Jenkins master HTTP pod
+  service:
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      cert-manager.io/cluster-issuer: letsencrypt
+    labels: {}
+    type: ClusterIP
+    port: 8080
+    #nodePort: int32
+    #loadBalancerSourceRanges: []string #whitelist IP ranges
+    #loadBalancerIP: string
+  # Service is Kubernetes service of Jenkins slave pods
+  slaveService:
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      cert-manager.io/cluster-issuer: letsencrypt
+    labels: {}
+    type: ClusterIP
+    port: 50000
+    #nodePort: int32
+    #loadBalancerSourceRanges: []string #whitelist IP ranges
+    #loadBalancerIP: string
+  backup:
+    action:
+      exec:
+        command:
+        - /home/user/bin/backup.sh
+    containerName: backup
+    interval: 30
+    makeBackupBeforePodDeletion: true
+  restore:
+    action:
+      exec:
+        command:
+        - /home/user/bin/restore.sh
+    containerName: backup
+    getLatestAction:
+      exec:
+        command:
+        - /home/user/bin/get-latest.sh
+  # GroovyScripts defines configuration of Jenkins customization via groovy scripts
+  groovyScripts:
+    configurations: []
+    secret:
+      name: ""
+  # ConfigurationAsCode defines configuration of Jenkins customization via Configuration as Code Jenkins plugin
+  configurationAsCode:
+    configurations:
+    #- name: jenkins-auth
+    #- name: jenkins-base-libraries
+    #- name: jenkins-security
+    - name: jenkins-ansicolor
+    - name: jenkins-timestamper
+    - name: jenkins-audit-trail
+    secret:
+      name: ""
+  # Roles defines list of extra RBAC roles for the Jenkins Master pod service account
+  # roles:
+  # ServiceAccount defines Jenkins master service account attributes
+  # serviceAccount:
+  #   annotations:
+  # JenkinsAPISettings defines configuration used by the operator to gain admin access to the Jenkins API
+  jenkinsAPISettings:
+    authorizationStrategy: createUser
+      

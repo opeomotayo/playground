@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: frontend
+  namespace: jenkins
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  tls:
+  - hosts:
+    - nothing #Replaced in cluster deployment
+    secretName: frontend-tls
+  rules:
+  - host: nothing #Replaced in cluster deployment
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: jenkins-operator-http-jenkins
+          servicePort: 8080
