@@ -1,11 +1,11 @@
 - op: add
   path: "/spec/seedJobs/-"
   value:
-    id: ssh-priv-key-id
+    id: ssh-private-key
     credentialType: basicSSHUserPrivateKey
-    credentialID: ssh-priv-key-cred
-    targets: "seed/jobs/team-solar/**/*.groovy"
-    description: "Team Solar Seed"
+    credentialID: ssh-private-key
+    targets: "seed/jobs/group-planet/**/*.groovy"
+    description: "Obtains all seed jobs"
     repositoryBranch: master
     repositoryUrl: git@github.com:opeomotayo/playground.git
     pollSCM: "*/1 * * * *"
