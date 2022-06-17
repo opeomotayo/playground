@@ -1,0 +1,93 @@
+def SERVICE_ACCOUNT = 'nscommon-prd'
+def ENV_STAGE = 'prd'
+def ENV_REGION = 'eu-west-1'
+def ENV_CLUSTER_NAME = 'slr-nscommon-prd-01-euwe1'
+def terraformCI = addEmbeddableBadgeConfiguration(id: "terraformCI", subject: "Terraform CI")
+def terraformCD = addEmbeddableBadgeConfiguration(id: "terraformCD", subject: "Terraform CD")
+
+pipeline {
+  agent {
+    kubernetes {
+      cloud "nscommon"
+      defaultContainer 'skaffold'
+      yaml skaffold.envWithIRSA('serviceAccountName': SERVICE_ACCOUNT)
+    }
+  }
+  options {
+    preserveStashes(buildCount: 10)
+    disableConcurrentBuilds()
+    parallelsAlwaysFailFast()
+    checkoutToSubdirectory('./')
+    ansiColor('xterm')
+    timestamps()
+  }
+  stages {
+    stage("CI") { // CI START
+      environment {
+        DEPLOY_ENV = "${ENV_STAGE}"
+      }
+      stages{
+        stage('Terraform CI') {
+          steps{
+            script {
+              sshagent ( ['github-key']) {
+                dir("${env.WORKSPACE}/terraform"){
+                  eks.updateKubeConfig("${ENV_REGION}","${ENV_CLUSTER_NAME}")
+                  script {
+                    terraformCI.setStatus('running')
+                    try {
+                      sh """
+                      make terraform-init
+                      make terraform-validate
+                      make terraform-plan
+                      """
+                      terraformCI.setStatus('passing')
+                    } catch (Exception err) {
+                      terraformCI.setStatus('failing')
+                      error 'Terraform Build Failing'
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    } // CI End
+    stage("CD") {
+      environment {
+        DEPLOY_ENV = "${ENV_STAGE}"
+      }
+      when {
+        branch 'main'
+      }
+      steps {
+        script {
+          timeout(time: 5, unit: "MINUTES") {
+              input message: 'Do you want the deploy to Proceed?', ok: 'Yes'
+          }
+          stage('Terraform CD') {
+            sshagent ( ['github-key']) {
+              dir("${env.WORKSPACE}/terraform"){
+                script {
+                  eks.updateKubeConfig("${ENV_REGION}","${ENV_CLUSTER_NAME}")
+                  terraformCD.setStatus('running')
+                  try {
+                    sh """
+                    make terraform-init
+                    make terraform-apply
+                    """
+                    terraformCD.setStatus('passing')
+                  } catch (Exception err) {
+                    terraformCD.setStatus('failing')
+                    error 'Terraform Deploy Failing'
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

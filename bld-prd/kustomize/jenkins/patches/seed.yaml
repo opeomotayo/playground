@@ -7,6 +7,6 @@
     targets: "seed/jobs/group-planet/**/*.groovy"
     description: "Obtains all seed jobs"
     repositoryBranch: master
-    repositoryUrl: git@github.com:opeomotayo/playground.git
+    repositoryUrl: https://github.com/opeomotayo/playground.git #git@github.com:opeomotayo/playground.git
     pollSCM: "*/1 * * * *"
 
