@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jenkins-auth
+  namespace: jenkins
+data:
+  1-user-access.yaml: |-
+    jenkins:
+      agentProtocols:
+      - "JNLP4-connect"
+      - "Ping"
+      authorizationStrategy:
+        projectMatrix:
+          permissions:
+          - "USER:Overall/Administer:jenkins-operator"
+          - "GROUP:Overall/Administer:/Auth/Jenkins/NS"
+          - "GROUP:Overall/Read:/Auth/Jenkins/sharedsvcs_platformforces"
+      securityRealm: "keycloak"
+    unclassified:
+      keycloakSecurityRealm:
+        keycloakJson: |-
+          {
+            "realm": "N-able",
+            "auth-server-url": "https://auth.builtwith.solar/auth/",
+            "ssl-required": "all",
+            "resource": "common.build.n-able.dev",
+            "public-client": true,
+            "confidential-port": 0
+          }
+        keycloakRespectAccessTokenTimeout: true
+        keycloakValidate: false

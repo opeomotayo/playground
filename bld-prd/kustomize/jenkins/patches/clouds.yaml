@@ -1,0 +1,4 @@
+- op: add
+  path: "/spec/configurationAsCode/configurations/-"
+  value:
+    name: team-solar-cloud
