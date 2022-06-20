@@ -1,4 +1,4 @@
 - op: add
   path: "/spec/configurationAsCode/configurations/-"
   value:
-    name: group-planet-cloud
+    name: jenkins-cloud
