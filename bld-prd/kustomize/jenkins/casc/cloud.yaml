@@ -1,11 +1,11 @@
 apiVersion: v1
 data:
-  1-mail-cloud.yaml: |-
+  1-global-planet-cloud.yaml: |-
     jenkins:
       clouds:
         - kubernetes:
-            name: "global-planet"
-            namespace: "build-gloabl-planet"
+            name: "jenkins-agent"
+            namespace: "jenkins"
             usageRestricted: true
             jenkinsURL: "http://jenkins-operator-http-jenkins.jenkins.svc.cluster.local:8080"
             jenkinsTunnel: "jenkins-operator-slave-jenkins.jenkins.svc.cluster.local:50000"
@@ -25,6 +25,6 @@ metadata:
     app: jenkins-operator
     jenkins-cr: jenkins
     watch: "true"
-  name: global-planet-cloud
+  name: jenkins-cloud
   namespace: jenkins
 

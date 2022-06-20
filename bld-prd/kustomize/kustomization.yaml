@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
 - ../../bld-base #git@github.com:/logicnow/bld-base.git?ref=v0.4.5
 - jenkins/casc/location.yaml
+- jenkins/casc/cloud.yaml
 #- jenkins/credentials/gh-svc-nscommon-key.yaml
 #- jenkins/credentials/gh-svc-nscommon-pat.yaml
 #- jenkins/credentials/gitguardian-api-key.yaml
