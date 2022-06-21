@@ -19,8 +19,8 @@ pipelineJob('k8s-e2e') {
             scm {
                 git {
                     remote {
-                        url('https://github.com/opeomotayo/playstation.git')
-                        //credentials('jenkins-operator')
+                        url('https://github.com/jenkinsci/kubernetes-operator.git')
+                        credentials('jenkins-operator')
                     }
                     branches('*/master')
                 }
