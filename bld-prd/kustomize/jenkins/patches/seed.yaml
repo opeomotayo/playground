@@ -4,9 +4,9 @@
     id: github-key
     credentialType: basicSSHUserPrivateKey
     credentialID: github-key
-    targets: "bld-prd/cicd/app1/**/*.groovy"    #"seed/jobs/group-planet/**/*.groovy"
+    targets: "bld-prd/cicd/app1/**/*.groovy"
     description: "Jenkins Operator repository"
     repositoryBranch: master
-    repositoryUrl: git@github.com:opeomotayo/playground.git  #https://github.com/jenkinsci/kubernetes-operator.git #git@github.com:opeomotayo/playground.git
+    repositoryUrl: git@github.com:opeomotayo/playground.git
     pollSCM: "*/1 * * * *"
 
