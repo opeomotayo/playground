@@ -1,26 +1,28 @@
 #!/usr/bin/env groovy
 
-def label = "jenkins-example-${UUID.randomUUID().toString()}"
+// library identifier: "msp-jenkins-lib@${env.BRANCH_NAME}", retriever: modernSCM(github(traits: [gitHubPullRequestDiscovery(2)], credentialsId: 'gh-svc-nable-logicnow', repository: 'msp-jenkins-lib', repoOwner: 'logicnow'))
 
-podTemplate(label: label,
-        containers: [
-                containerTemplate(name: 'jnlp', image: 'jenkins/inbound-agent:alpine'),
-        ],
-        ) {
-    node(label) {
-        stage('Init') {
-            timeout(time: 3, unit: 'MINUTES') {
-                checkout scm
+pipeline {
+    agent none
+    options {
+        ansiColor('xterm')
+    }
+    stages {
+        stage('Unit Tests') {
+            agent {
+                kubernetes {
+                    cloud "jenkins-cloud"
+                    namespace 'jenkins'
+                    defaultContainer 'gradle'
+                    yamlFile 'build/build.yaml'
+                }
             }
-        }
-        stage('Dep') {
-            echo 'Hello from Dep stage'
-        }
-        stage('Test') {
-            echo 'Hello from Test stage'
-        }
-        stage('Build') {
-            echo 'Hello from Build stage'
+            environment {
+                GRADLE_OPTS = "-Xmx2048m -Dorg.gradle.daemon=false"
+            }
+            steps{
+                sh './gradlew test'
+            }
         }
     }
 }
