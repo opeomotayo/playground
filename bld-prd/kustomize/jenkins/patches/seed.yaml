@@ -2,8 +2,8 @@
   path: "/spec/seedJobs/-"
   value:
     id: gh-private-key
-    #credentialType: basicSSHUserPrivateKey
-    #credentialID: gh-private-key
+    credentialType: basicSSHUserPrivateKey
+    credentialID: gh-private-key
     targets: "cicd/jobs/*.jenkins"    #"seed/jobs/group-planet/**/*.groovy"
     description: "Jenkins Operator repository"
     repositoryBranch: master
