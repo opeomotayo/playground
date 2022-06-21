@@ -25,7 +25,7 @@ pipelineJob('e2e-jenkins-operator') {
                     branches('*/master')
                 }
             }
-            scriptPath('cicd/pipelines/e2e.jenkins')
+            scriptPath('bld-prd/cicd/app1/pipelines/e2e.jenkins')
         }
     }
 }
