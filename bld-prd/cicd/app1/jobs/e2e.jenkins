@@ -19,7 +19,7 @@ pipelineJob('e2e-jenkins-operator') {
             scm {
                 git {
                     remote {
-                        url('git@github.com/opeomotayo/playground.git')
+                        url('git@github.com:opeomotayo/playground.git')
                         credentials('github-key')
                     }
                     branches('*/master')
