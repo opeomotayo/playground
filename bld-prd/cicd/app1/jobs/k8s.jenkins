@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 
-pipelineJob('e2e-jenkins-operator') {
-    displayName('Dummy job for e2e testing')
+pipelineJob('k8s-e2e') {
+    displayName('Kubernetes Plugin E2E Test')
 
     logRotator {
         numToKeep(10)
@@ -19,13 +19,13 @@ pipelineJob('e2e-jenkins-operator') {
             scm {
                 git {
                     remote {
-                        url('https://github.com/jenkinsci/kubernetes-operator.git')
-                        credentials('jenkins-operator')
+                        url('https://github.com/opeomotayo/playground.git')
+                        #credentials('jenkins-operator')
                     }
                     branches('*/master')
                 }
             }
-            scriptPath('cicd/pipelines/e2e.jenkins')
+            scriptPath('cicd/pipelines/k8s.jenkins')
         }
     }
 }
