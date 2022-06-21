@@ -29,7 +29,7 @@ multibranchPipelineJob('building-a-multibranch-pipeline-project') {
       strategyId(2)
     }
     traits << 'jenkins.scm.impl.trait.RegexSCMHeadFilterTrait' {
-      regex(".*(main|PR-).*")
+      regex(".*(master|main|dev|PR-).*")
     }
     traits << 'jenkins.plugins.git.traits.CleanBeforeCheckoutTrait' {
       extension(class: 'hudson.plugins.git.extensions.impl.CleanBeforeCheckout') {
