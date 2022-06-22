@@ -4,7 +4,7 @@
     id: github-key
     credentialType: basicSSHUserPrivateKey
     credentialID: github-key
-    targets: "bld-prd/cicd/app1/**/*.groovy"
+    targets: "bld-prd/cicd/**/**/*.groovy"
     description: "Jenkins Operator repository"
     repositoryBranch: master
     repositoryUrl: git@github.com:opeomotayo/playground.git
