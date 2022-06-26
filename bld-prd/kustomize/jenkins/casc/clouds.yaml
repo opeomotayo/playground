@@ -6,7 +6,7 @@ data:
         - kubernetes:
             name: "jenkins-cloud"
             namespace: "jenkins"
-            usageRestricted: true
+            usageRestricted: false
             jenkinsURL: "http://jenkins-operator-http-jenkins.jenkins.svc.cluster.local:8080"
             jenkinsTunnel: "jenkins-operator-slave-jenkins.jenkins.svc.cluster.local:50000"
             defaultsProviderTemplate: "default"
@@ -18,7 +18,7 @@ data:
                   emptyDirWorkspaceVolume:
                     memory: false
                 yamlMergeStrategy: "override"
-            usageRestricted: true
+            usageRestricted: false
 kind: ConfigMap
 metadata:
   labels:
