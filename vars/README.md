@@ -1,4 +1,4 @@
-### Step 01
+# Step 01
 
 #### configure shared libraries
 
@@ -13,7 +13,7 @@ def call(String name, String day)fWeek) {
 }
 ```
 
-### Step 02
+# Step 02
 
 #### create a test-shared-libraries pipeline
 
@@ -51,5 +51,5 @@ pipeline {
 shared-libraries in @Library("shared-libraries") _ must match the set name in configure system
 The method call name helloWorld(...) matches helloWorld.groovy 
 
-### references:
+#### references:
 https://www.youtube.com/watch?v=Wj-weFEsTb0
