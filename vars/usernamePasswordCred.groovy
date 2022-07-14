@@ -14,7 +14,6 @@ import com.cloudbees.plugins.credentials.*;
 import com.cloudbees.plugins.credentials.domains.*;
     
 
-@NonCPS
 def call(String folderName, String user_name, String user_pass, String description) {
     if(description.isEmpty()) {
         description = "No Description"
