@@ -12,7 +12,6 @@ import com.cloudbees.hudson.plugins.folder.properties.FolderCredentialsProvider.
 import com.cloudbees.plugins.credentials.impl.*;
 import com.cloudbees.plugins.credentials.*;
 import com.cloudbees.plugins.credentials.domains.*;
-    
 
 def call(String folderName, String user_name, String user_pass, String description) {
     if(description.isEmpty()) {
