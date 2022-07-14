@@ -1,23 +1,23 @@
+/*
+    * Configures single (username & password) credentials for a folder in global domain
+    *  if already exists a credentials with defined username - it will update it
+    *  if more than one exists - the first one it encounters will be updated
+*/
+
+import java.util.logging.Logger
+import jenkins.model.*
+import com.cloudbees.hudson.plugins.folder.*;
+import com.cloudbees.hudson.plugins.folder.properties.*;
+import com.cloudbees.hudson.plugins.folder.properties.FolderCredentialsProvider.FolderCredentialsProperty;
+import com.cloudbees.plugins.credentials.impl.*;
+import com.cloudbees.plugins.credentials.*;
+import com.cloudbees.plugins.credentials.domains.*;
+    
+
 def call(String folderName, String user_name, String user_pass, String description) {
     if(description.isEmpty()) {
         description = "No Description"
     }
-        /*
-    * Configures single (username & password) credentials for a folder in global domain
-    *  if already exists a credentials with defined username - it will update it
-    *  if more than one exists - the first one it encounters will be updated
-    */
-
-    import java.util.logging.Logger
-    import jenkins.model.*
-    import com.cloudbees.hudson.plugins.folder.*;
-    import com.cloudbees.hudson.plugins.folder.properties.*;
-    import com.cloudbees.hudson.plugins.folder.properties.FolderCredentialsProvider.FolderCredentialsProperty;
-    import com.cloudbees.plugins.credentials.impl.*;
-    import com.cloudbees.plugins.credentials.*;
-    import com.cloudbees.plugins.credentials.domains.*;
-    
-def usernamePassword(folderName, user_name, user_pass, description) {
 
     // Init
     def logger = Logger.getLogger("")
