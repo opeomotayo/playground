@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: keycloak-production
+  namespace: keycloak
+spec:
+  secretName: keycloak-production-certificate
+  issuerRef:
+    name: letsencrypt-production
+  dnsNames:
+  - keycloak.opeomotayo.net
+    

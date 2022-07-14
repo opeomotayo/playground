@@ -1,9 +1,9 @@
-multibranchPipelineJob('building-a-multibranch-pipeline-project') {
+multibranchPipelineJob('create-jenkins-creds') {
   branchSources {
     github {
-      id('building-a-multibranch-pipeline-project')
+      id('create-jenkins-creds')
       repoOwner('opeomotayo')
-      repository('building-a-multibranch-pipeline-project')
+      repository('create-jenkins-creds')
       scanCredentialsId('github-key')
     }
   }

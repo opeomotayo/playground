@@ -1,0 +1,2 @@
+https://faun.pub/keycloak-kubernetes-deployment-409d6ccd8a39
+helm install -n keycloak keycloak-db bitnami/postgresql-ha
