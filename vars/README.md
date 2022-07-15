@@ -8,7 +8,8 @@ create a vars folder in the root directory of the shared libraries repository, c
 Add the below code snippet in the helloWorld.groovy file.
 
 ```yaml
-def call(String name, String day)fWeek) {
+
+def call(String name, String dayOfWeek) {
     sh "echo Hello ${name}. Today is ${dayOfWeek}."
 }
 ```
