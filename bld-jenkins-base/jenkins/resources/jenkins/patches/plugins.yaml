@@ -7,30 +7,32 @@ spec:
   master:
     basePlugins:
     - name: kubernetes
-      version: "3580.v78271e5631dc"
+      version: "3663.v1c1e0ec5b_650"
     - name: workflow-job
-      version: "1180.v04c4e75dce43"
+      version: "1189.va_d37a_e9e4eda_"
     - name: workflow-aggregator
-      version: "2.7"
+      version: "590.v6a_d052e5a_a_b_5"
     - name: git
-      version: "4.11.1"
+      version: "4.11.3"
     - name: job-dsl
-      version: "1.79"
+      version: "1.80"
     - name: configuration-as-code
-      version: "1429.v09b_044a_c93de"
+      version: "1466.v2d4119502006"
     - name: kubernetes-credentials-provider
-      version: "0.20"
+      version: "0.21"
     - name: keycloak
       version: "2.3.0"
     - name: matrix-auth
-      version: "3.1.1"
+      version: "3.1.5"
     plugins:
     - name: ansicolor
       version: "1.0.1"
+    - name: credentials
+      version: "1139.veb_9579fca_33b_"
     - name: envinject
-      version: "2.847.vb_fa_18490fa_d6"
+      version: "1.199.v3ce31253ed13"
     - name: audit-trail
-      version: "3.10"
+      version: "3.11"
     - name: authorize-project
       version: "1.4.0"
     - name: aws-credentials
@@ -40,10 +42,14 @@ spec:
     - name: cloudbees-disk-usage-simple
       version: "0.10"
     - name: cloudbees-folder
-      version: "6.714.v79e858ef76a_2"
+      version: "6.729.v2b_9d1a_74d673"
     - name: github-branch-source
-      version: "1598.v91207e9f9b_4a_"
+      version: "1656.v77eddb_b_e95df"
     - name: prometheus
       version: "2.0.11"
     - name: timestamper
       version: "1.17"
+    - name: workflow-cps
+      version: "2746.v0da_83a_332669"
+    - name: workflow-basic-steps
+      version: "969.vc4ec3e4854b_f"
