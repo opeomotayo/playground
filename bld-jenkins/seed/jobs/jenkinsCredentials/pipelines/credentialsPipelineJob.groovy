@@ -9,7 +9,7 @@ pipelineJob('credentialsFolder/credentialsPipeline') {
               steps {
                 // your logic here
                 script {
-                    gv = load https://github.com/opeomotayo/playground/tree/master/dsl-pipelines/script.groovy"
+                    gv = load "https://github.com/opeomotayo/playground/tree/master/dsl-pipelines/script.groovy"
                 }
               }
             }
@@ -17,7 +17,7 @@ pipelineJob('credentialsFolder/credentialsPipeline') {
               steps {
                 // your logic here
                 script {
-                    ls -la
+                    "ls -la"
                 }
               }
             }
