@@ -1,4 +1,4 @@
-pipelineJob("simpleApp") {
+pipelineJob("simple-app-folder/folder1/simple-app") {
   definition {
     cpsScm {
       scm {
