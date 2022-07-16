@@ -1,4 +1,4 @@
-pipelineJob('create-folder-creds') {
+pipelineJob('credentialsFolder/credentialsPipeline') {
   definition {
     cps {
       script('''
@@ -9,7 +9,7 @@ pipelineJob('create-folder-creds') {
               steps {
                 // your logic here
                 script {
-                    gv = load "../../../../script.groovy"
+                    gv = load https://github.com/opeomotayo/playground/tree/master/dsl-pipelines/script.groovy"
                 }
               }
             }
@@ -17,7 +17,7 @@ pipelineJob('create-folder-creds') {
               steps {
                 // your logic here
                 script {
-                    gv = load "../../../../script.groovy"
+                    ls -la
                 }
               }
             }
