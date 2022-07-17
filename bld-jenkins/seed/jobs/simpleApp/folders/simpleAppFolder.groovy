@@ -1,12 +1,12 @@
-folder('simple-app-folder') {
-    displayName('simple-app-folder')
+folder('simpleAppFolder') {
+    displayName('simpleAppFolder')
     description('Folder for project A')
 }
 
-folder('simple-app-folder/folder1') {
+folder('simpleAppFolder/folder1') {
     description('Folder containing all QA jobs for project A')
 }
 
-folder('simple-app-folder/folder2') {
+folder('simpleAppFolder/folder2') {
     description('Folder containing all QA jobs for project A')
 }
