@@ -11,7 +11,7 @@ spec:
     - name: workflow-job
       version: "1180.v04c4e75dce43"
     - name: workflow-aggregator
-      version: "2.7"
+      version: "2.6"
     - name: git
       version: "4.11.3"
     - name: job-dsl
@@ -48,4 +48,7 @@ spec:
     - name: timestamper
       version: "1.17"
     - name: docker-workflow
-      version: "1.29"
+      version: "1.28"
+    - name: pipeline-model-definition
+      version: "2.2075.vce74e77b_ce40"
+    
