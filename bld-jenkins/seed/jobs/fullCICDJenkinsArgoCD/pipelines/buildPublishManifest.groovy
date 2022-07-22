@@ -1,4 +1,4 @@
-pipelineJob("buildPublishManifest") {
+pipelineJob("fullCICDJenkinsArgoCDFolder/buildPublishManifest") {
   definition {
     cpsScm {
       scm {
