@@ -47,3 +47,5 @@ spec:
       version: "2.0.11"
     - name: timestamper
       version: "1.17"
+    - name: docker-workflow
+      version: "1.29"
