@@ -9,7 +9,7 @@ pipelineJob("fullCICDJenkinsArgoCD") {
           branch('master')
         }
       }
-      scriptPath("dsl-pipelines/full-cicd-jenkins-argocd/Jenkinsfile")
+      scriptPath("dsl-pipelines/full-cicd-jenkins-argocd/update-publish-manifest/Jenkinsfile")
     }
   }
 
