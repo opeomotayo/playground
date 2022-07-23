@@ -1,0 +1,44 @@
+pipeline {
+  agent {
+    kubernetes {
+      defaultContainer 'build'
+      cloud "ns"
+      yamlFile 'build/build.yaml'
+    }
+  }
+  options {
+        preserveStashes(buildCount: 10)
+        disableConcurrentBuilds()
+        parallelsAlwaysFailFast()
+        checkoutToSubdirectory('./')
+        ansiColor('xterm')
+        timestamps()
+  }
+  stages {
+    stage('Validate') {
+      steps {
+        dir("${env.WORKSPACE}/build") {
+          sshagent ( ['github-key']) {
+            sh "make validate"
+          }
+        }
+      }
+    }
+    stage('Release') {
+      when {
+        branch 'main'
+      }
+      environment {
+        GITHUB = credentials('gh-svc-nable-logicnow')
+      }
+      steps {
+        sh "git config --global credential.username ${env.GITHUB_USR}"
+        sh '''git config --global credential.helper '!f() { echo "password=${GITHUB_PSW}"; }; f' '''
+        dir("${env.WORKSPACE}/build") {
+          sh "make release"
+        }
+      }
+    }
+  }
+}
+

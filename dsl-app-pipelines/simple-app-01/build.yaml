@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bld-base
+spec:
+  containers:
+    - name: build
+      image: 263262308774.dkr.ecr.us-east-1.amazonaws.com/build:ab4a6e6
+      imagePullPolicy: Always 
+      resources:
+        requests:
+          memory: "300Mi"
+          cpu: "100m"
+        limits:
+          memory: "500Mi"
+          cpu: "300m"
+      tty: true
+      command:
+        - cat
