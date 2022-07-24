@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  labels:
+    app: jenkins-operator
+    podMonitor: "true"
+  name: jenkins-jenkins
+  namespace: jenkins
+spec:
+  podMetricsEndpoints:
+  - port: http
+    path: /prometheus
+  jobLabel: jenkins
+  namespaceSelector:
+    matchNames:
+    - jenkins
+  selector:
+    matchLabels:
+      app: jenkins-operator

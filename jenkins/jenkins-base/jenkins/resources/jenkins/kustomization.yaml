@@ -5,13 +5,28 @@ namespace: jenkins
 
 resources:
 - jenkins.yaml
+- backup/backup.yaml
 - pvc.yaml
 #- casc/auth.yaml
-#- casc/base-libraries.yaml
+- casc/base-libraries.yaml
 - casc/ansicolor.yaml
-#- casc/security.yaml
+- casc/security.yaml
 - casc/timestamper.yaml
 - casc/audit-trail.yaml
+- groovy/csp.yaml
+#- prometheus/jenkins.yaml
+#- prometheus/alert.yaml
 
 patchesStrategicMerge:
 - patches/plugins.yaml
+
+# configMapGenerator:
+#   - name: jenkins-dashboard
+#     namespace: jenkins
+#     behavior: create
+#     files:
+#       - grafana_dashboard.json
+#     options:
+#       disableNameSuffixHash: true
+#       labels:
+#         grafana_dashboard: "1"

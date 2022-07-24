@@ -1,0 +1,73 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    app: forge
+  name: northstar-rules
+  namespace: northstar
+spec:
+  groups:
+  - name: ns.rules
+    rules:
+    - alert: $(tf_cluster_name) | ContainerCPUUsageReachingContainerCPULimit
+      expr: sum(rate(container_cpu_usage_seconds_total{namespace=~"build-.*", name!~".*prometheus.*", image!="", container!="POD"}[5m])) by (instance, pod, container, namespace)
+            /
+            sum(container_spec_cpu_quota{name!~".*prometheus.*", image!="", container!="POD"}
+            /
+            container_spec_cpu_period{name!~".*prometheus.*", image!="", container!="POD"}) by (instance, pod, container, namespace) * 100 >= 95
+      for: 2h
+      annotations:
+        message: |
+          The following item has used {{ $value }} of it's CPU limit.
+          Container: '{{ $labels.container }}'
+          Pod: '{{ $labels.pod }}'
+          Namespace: '{{ $labels.namespace }}'
+          This essentially means it cannot work faster as it has reached its allocated CPU limit and it may
+          start to cause increased latency in processing. Latency direcly impacts our internal/external customers.
+        runbook_url: https://n-able.atlassian.net/wiki/spaces/SMSP/pages/54051494470/Solar+Alerts+Runbooks#ContainerCPUUsageReachingContainerCPULimit
+      labels:
+        priority: P4
+        jenkins: build
+    - alert: $(tf_cluster_name) | PodsOutofMemory
+      expr: kube_pod_container_status_last_terminated_reason{namespace=~"build-.*", reason="OOMKilled"} == 1 and on(container) rate(kube_pod_container_status_restarts_total[5m]) * 300 > 1
+      for: 1m
+      labels:
+        priority: P4
+        jenkins: build
+      annotations:
+        message: |
+          A pod within the {{$labels.namespace}} called {{$labels.pod}} is currently OOM and restarting. Please investigate (current value is: {{ $value }})%. 
+        runbook_url: https://n-able.atlassian.net/wiki/spaces/SMSP/pages/54051494470/Solar+Alerts+Runbooks#NodeMemoryUsageCritical
+    - alert: $(tf_cluster_name) | KubePodNotReady
+      annotations:
+        message: Pod {{ $labels.namespace }}/{{ $labels.pod }} has been in a non-ready
+          state.
+        runbook_url: https://n-able.atlassian.net/wiki/spaces/SMSP/pages/54051494470/Solar+Alerts+Runbooks#KubePodNotReady
+      expr: |
+        sum by (namespace, pod) (kube_pod_status_phase{namespace=~"build-.*", phase=~"Pending|Unknown"}) > 0
+      for: 1h
+      labels:
+        priority: P3
+        jenkins: build
+    - alert: $(tf_cluster_name) | KubePodCrashLooping
+      annotations:
+        message: Pod {{ $labels.namespace }}/{{ $labels.pod }} ({{ $labels.container
+          }}) is restarting {{ printf "%.2f" $value }} times / 5 minutes.
+        runbook_url: https://n-able.atlassian.net/wiki/spaces/SMSP/pages/54051494470/Solar+Alerts+Runbooks#KubePodCrashLooping
+      expr: |
+        rate(kube_pod_container_status_restarts_total{namespace=~"build-.*"}[15m]) * 60 * 5 > 0
+      for: 1h
+      labels:
+        priority: P3
+        jenkins: build
+    - alert: $(tf_cluster_name) | KubePodNotRunning
+      annotations:
+        message: Pod {{ $labels.namespace }}/{{ $labels.pod }} ({{ $labels.container
+          }}) has an error of {{$labels.reason}} for 15 minutes.
+        runbook_url: https://n-able.atlassian.net/wiki/spaces/SMSP/pages/54051494470/Solar+Alerts+Runbooks#KubePodNotRunning
+      expr: |
+        kube_pod_container_status_terminated_reason{namespace=~"build-.*", reason=~"OOMKilled|Error|ContainerCannotRun|CrashLoopBackOff"} > 0
+      for: 15m
+      labels:
+        priority: P3
+        jenkins: build

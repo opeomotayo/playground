@@ -10,14 +10,14 @@ data:
         - defaultVersion: "master"
           implicit: true
           includeInChangesets: false
-          name: "msp"
+          name: "pipeline-shared-libs"
           retriever:
             legacySCM:
               scm:
                 git:
                   branches:
-                  - name: "^${library.msp.version}"
+                  - name: "master"
                   buildChooser: "default"
                   userRemoteConfigs:
-                  - credentialsId: "gh-svc-nable-logicnow"
-                    url: "https://github.com/logicnow/msp-jenkins-lib.git"
+                  - credentialsId: "gh-repo-cred"
+                    url: "https://github.com/opeomotayo/playground.git"

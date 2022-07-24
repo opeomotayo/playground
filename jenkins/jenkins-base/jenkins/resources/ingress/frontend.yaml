@@ -6,13 +6,14 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/whitelist-source-range: $(tf_jenkins_ip_whitelist)
 spec:
   tls:
   - hosts:
-    - nothing #Replaced in cluster deployment
+    -  $(tf_jenkins_fqdn)
     secretName: frontend-tls
   rules:
-  - host: nothing #Replaced in cluster deployment
+  - host: $(tf_jenkins_fqdn)
     http:
       paths:
       - path: /

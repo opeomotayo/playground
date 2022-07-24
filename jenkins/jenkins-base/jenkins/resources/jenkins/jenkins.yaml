@@ -58,7 +58,15 @@ spec:
         name: jenkins-home
       - mountPath: /backup
         name: backup
-    disableCSRFProtection: false
+      - mountPath: /home/user/bin/backup.sh
+        name: backup-script
+        subPath: backup.sh
+        readOnly: true
+      - mountPath: /home/user/bin/restore.sh
+        name: backup-script
+        subPath: restore.sh
+        readOnly: true
+    disableCSRFProtection: true
     securityContext:
       fsGroup: 1000
       runAsUser: 1000
@@ -66,6 +74,10 @@ spec:
     - name: backup
       persistentVolumeClaim:
         claimName: jenkins-backup
+    - name: backup-script
+      configMap:
+        defaultMode: 0754
+        name: jenkins-operator-backup-scripts
   # ValidateSecurityWarnings enables or disables validating potential security warnings in Jenkins plugins via admission webhooks.
   validateSecurityWarnings: false
   seedJobs: []
@@ -121,18 +133,20 @@ spec:
         - /home/user/bin/get-latest.sh
   # GroovyScripts defines configuration of Jenkins customization via groovy scripts
   groovyScripts:
-    configurations: []
+    configurations:
+    - name: groovy-csp
     secret:
       name: ""
   # ConfigurationAsCode defines configuration of Jenkins customization via Configuration as Code Jenkins plugin
   configurationAsCode:
     configurations:
     #- name: jenkins-auth
-    #- name: jenkins-base-libraries
-    #- name: jenkins-security
+    - name: jenkins-base-libraries
+    - name: jenkins-security
     - name: jenkins-ansicolor
     - name: jenkins-timestamper
     - name: jenkins-audit-trail
+    - name: jenkins-clouds
     secret:
       name: ""
   # Roles defines list of extra RBAC roles for the Jenkins Master pod service account

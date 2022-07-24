@@ -4,4 +4,7 @@ kind: Kustomization
 resources:
 - resources/jenkins
 - resources/namespace/namespace.yaml
+- resources/ingress/jenkins-ingress.yaml
+- resources/ingress/production-issuer.yaml
+- resources/ingress/production-certificate.yaml  
 #- resources/ingress/frontend.yaml
