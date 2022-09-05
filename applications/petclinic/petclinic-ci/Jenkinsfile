@@ -1,13 +1,29 @@
 pipeline {
-    agent any
-    tools {
-        maven 'maven3'
-        jdk 'jdk8'
+    agent {
+        kubernetes {
+            yaml """
+                apiVersion: v1
+                kind: Pod
+                metadata:
+                    name: maven3
+                spec:
+                    containers:
+                    - name: maven
+                    image: maven:3-jdk-11-slim
+                    command:
+                    - cat
+                    tty: true
+            """
+        }
     }
+    // tools {
+    //     maven 'maven3'
+    //     jdk 'jdk8'
+    // }
     stages {
-        stage('Build maven ') {
+        stage('Build Application') {
             steps {
-		 dir("applications/petclinic/petclinic-ci"){
+                dir("applications/petclinic/petclinic-ci"){
                     sh 'pwd'        
                     sh 'mvn  clean install package'
                 }
