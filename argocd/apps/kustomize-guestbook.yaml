@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata: 
-  name: git-guestbook
+  name: kustomize-guestbook
   namespace: argocd
 spec: 
   destination: 
@@ -9,11 +9,9 @@ spec:
     server: "https://kubernetes.default.svc"
   project: default
   source: 
-    path: applications/git-guestbook
+    path: applications/kustomize-guestbook
     repoURL: "https://github.com/opeomotayo/playground.git"
     targetRevision: master
-    directory:
-      recurse: true
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
