@@ -1,3 +1,8 @@
+Installation Instruction:
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+
 https://www.stackovercloud.com/2022/01/22/how-to-deploy-to-kubernetes-using-argo-cd-and-gitops/
 
 https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#option-2-multiple-ingress-objects-and-hosts
