@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata: 
-  name: guestbook
+  name: git-guestbook
   namespace: argocd
 spec: 
   destination: 
@@ -9,7 +9,7 @@ spec:
     server: "https://kubernetes.default.svc"
   project: default
   source: 
-    path: applications/guestbook
+    path: applications/git-guestbook
     repoURL: "https://github.com/opeomotayo/playground.git"
     targetRevision: master
   syncPolicy:
