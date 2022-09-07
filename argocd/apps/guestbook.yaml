@@ -10,7 +10,7 @@ spec:
   project: default
   source: 
     path: applications/guestbook
-    repoURL: "https://github.com/opeomotayo/playbook.git"
+    repoURL: "https://github.com/opeomotayo/playground.git"
     targetRevision: master
   syncPolicy:
     syncOptions:
