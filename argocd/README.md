@@ -15,3 +15,18 @@ argocd app get helm-guestbook
 argocd app sync helm-guestbook
 https://cloudyuga.guru/blog/jenkins-argo
 kubectl port-forward svc/argocd-server -n argocd 8080:443 --address 167.235.236.197
+sudo curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64\n
+sudo chmod +x /usr/local/bin/argocd
+argocd version --grpc-web
+argocd login argocd.opeomotayo.net:443 --grpc-web
+argocd cluster list
+k get app -n argocd
+argocd app create app-2 --repo https://github.com/opeomotayo/playground.git --revision master --path applications/guestbook --dest-server https://kubernetes.default.svc --dest-namespace app-2 --sync-option CreateNamespace=true --grpc-web
+argocd app sync app-2 --grpc-web
+argocd app list --grpc-web
+argocd app delete kustomize-guestbook
+k get appproject -n argocd -o yaml
+k apply -f role-project.yaml
+k get appproject -n argocd
+argocd proj role create-token role-project ci-role --grpc-web
+argocd app delete git-guestbook --grpc-web --auth-token eyJhbGciOiJ...
