@@ -30,3 +30,4 @@ k apply -f role-project.yaml
 k get appproject -n argocd
 argocd proj role create-token role-project ci-role --grpc-web
 argocd app delete git-guestbook --grpc-web --auth-token eyJhbGciOiJ...
+argocd app create nginx-ingress --repo https://charts.helm.sh/stable --helm-chart nginx-ingress --revision 1.24.3 --dest-namespace default --dest-server https://kubernetes.default.svc --self-heal
