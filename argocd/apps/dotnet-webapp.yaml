@@ -12,8 +12,6 @@ spec:
     path: applications/dotnet-webapp/helm-config
     repoURL: "https://github.com/opeomotayo/playground.git"
     targetRevision: master
-    directory:
-      recurse: true
   syncPolicy:
     automated:
       prune: true
