@@ -9,8 +9,8 @@ spec:
     server: "https://kubernetes.default.svc"
   project: default
   source: 
-    path: applications/dotnet-webapp/helm-config
-    repoURL: "https://github.com/opeomotayo/playground.git"
+    path: dotnet-webapp/helm-config
+    repoURL: "https://github.com/opeomotayo/playground-applications.git"
     targetRevision: master
   syncPolicy:
     automated:
