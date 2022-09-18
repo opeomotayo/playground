@@ -7,13 +7,11 @@ EXPOSE 443
 # test
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-# COPY ["WebApplication1.csproj", "WebApplication1/"]
-CMD ["cat", "WebApplication1.csproj"]
-RUN pwd
-RUN ls -la
-RUN dotnet restore "WebApplication1/WebApplication1.csproj"
+COPY ["WebApplication1.csproj", "WebApplication1/"]
+RUN dotnet restore "WebApplication1.csproj"
 COPY . .
 WORKDIR "/src/WebApplication1"
+RUN ls -la
 RUN dotnet build "WebApplication1.csproj" -c Release -o /app/build
 
 FROM build AS publish
