@@ -11,7 +11,7 @@ COPY ["applications/dotnet-webapp/dotnet-code/", "dotnet-code/"]
 RUN dotnet restore "dotnet-code/WebApplication1.csproj"
 COPY . .
 WORKDIR "/src/dotnet-code"
-RUN ls -la
+#RUN ls -la
 RUN dotnet build "WebApplication1.csproj" -c Release -o /app/build
 
 FROM build AS publish
