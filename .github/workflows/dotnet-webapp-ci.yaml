@@ -39,7 +39,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: web-applications/dotnet-webapp/dotnet-code/Dockerfile
+          file: web-applications/dotnet-code/Dockerfile
           push: true
           tags: opeomotayo/dotnet-webapp:${{ github.sha }}
 
