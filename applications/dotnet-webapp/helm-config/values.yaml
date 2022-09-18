@@ -8,7 +8,7 @@ image:
   repository: opeomotayo/dotnet-webapp
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 33b9d946e2e3ac810b95f389fd7648f569d1c31b
+  tag: 9351de8ce61f143fc911c48cdf998282b2591c18
 
 imagePullSecrets: []
 nameOverride: ""
