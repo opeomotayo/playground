@@ -7,7 +7,7 @@ EXPOSE 443
 # test
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["WebApplication1.csproj", "WebApplication1/"]
+# COPY ["WebApplication1.csproj", "WebApplication1/"]
 RUN cat "WebApplication1.csproj"
 RUN pwd
 RUN ls -la
