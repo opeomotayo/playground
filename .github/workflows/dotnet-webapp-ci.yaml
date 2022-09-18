@@ -2,7 +2,7 @@ name: dotnet-ci-pipeline
 
 env:
   CONFIG_REPO_NAME: playground-configs
-  
+
 on:
   push:
     branches: [ master ]
