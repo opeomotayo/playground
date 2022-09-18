@@ -1,7 +1,7 @@
 name: ci
 
 env:
-  CONFIG_REPO_NAME: playground-applications
+  CONFIG_REPO_NAME: playground-configs
   
 on:
   push:
@@ -39,7 +39,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: dotnet-webapp/dotnet-code/Dockerfile
+          file: web-applcations/dotnet-webapp/dotnet-code/Dockerfile
           push: true
           tags: opeomotayo/dotnet-webapp:${{ github.sha }}
 
