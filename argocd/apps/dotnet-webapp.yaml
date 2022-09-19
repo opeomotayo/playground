@@ -10,7 +10,7 @@ spec:
   project: default
   source: 
     path: dotnet-webapp/helm-config
-    repoURL: "https://github.com/opeomotayo/playground-applications.git"
+    repoURL: "https://github.com/opeomotayo/playground-configs.git"
     targetRevision: master
   syncPolicy:
     automated:
