@@ -17,9 +17,9 @@ chart repos are create in playground-depency repo
 create a new branch (helm-repo-host), follow the below instructions and push changes
 go to settings, pages, change branch name to new branch
 update values in charts/jenkins/values.yaml
+update vi charts/jenkins/Chart.yaml
 lint chart: helm lint charts/jenkins
 view chart template: helm template charts/jenkins
-update chart version in charts/jenkins/Chart.yaml
 package chart: helm package charts/jenkins -d charts/
 update index.yaml: file helm repo index charts
 git add -A
