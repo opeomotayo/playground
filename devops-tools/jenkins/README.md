@@ -7,22 +7,23 @@ https://www.youtube.com/watch?v=KB7thPsG9VA&t=2351s
 https://devopscube.com/jenkins-build-agents-kubernetes/
 https://www.youtube.com/watch?v=o4QG_kqYvHk
 
+  
 
- 2916  helm template charts/jenkins
- 2917  helm template charts/jenkins -f charts/jenkins/values.yaml
- 2918  helm lint charts/jenkins
- 2919  helm upgrade --install jenkins jenkins/jenkins
- 2920  helm template charts/jenkins
- 2921  helm template charts/jenkins -f charts/jenkins/values.yaml
- 2922  vi charts/jenkins/Chart.yaml
- 2923  vi charts/jenkins/values.yaml
- 2924  helm package charts/jenkins -d charts/
- 2925  helm repo index charts
- 2926  git add -A
- 2927  git commit -m "Updating index.yaml"
- 2928  git push
- 2929  git pull
- 2930  git commit -m "Updating index.yaml"
- 2931  git push
- 2932  helm repo update
- 2933  helm upgrade --install jenkins jenkins/jenkins
+References:
+```yaml
+How to update and push Jenkins helm chart to a remote repo (github pages)
+video explaination: https://www.youtube.com/watch?v=Xp8gTpSYyRo
+chart repos are create in playground-depency repo
+create a new branch (helm-repo-host), follow the below instructions and push changes
+go to settings, pages, change branch name to new branch
+update values in charts/jenkins/values.yaml
+lint chart: helm lint charts/jenkins
+view chart template: helm template charts/jenkins
+update chart version in charts/jenkins/Chart.yaml
+package chart: helm package charts/jenkins -d charts/
+update index.yaml: file helm repo index charts
+git add -A
+git commit -am "Updating index.yaml"
+git push
+helm upgrade --install jenkins jenkins/jenkins
+```
