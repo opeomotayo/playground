@@ -21,9 +21,11 @@ update vi charts/jenkins/Chart.yaml
 lint chart: helm lint charts/jenkins
 view chart template: helm template charts/jenkins
 package chart: helm package charts/jenkins -d charts/
-update index.yaml: file helm repo index charts
+update index.yaml file: helm repo index charts
 git add -A
 git commit -am "Updating index.yaml"
 git push
+helm repo update
+hel
 helm upgrade --install jenkins jenkins/jenkins
 ```
