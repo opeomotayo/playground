@@ -25,7 +25,9 @@ update index.yaml file: helm repo index charts
 git add -A
 git commit -am "Updating index.yaml"
 git push
+helm fetch jenkins/jenkins
+helm search repo jenkins/jenkins
 helm repo update
-hel
-helm upgrade --install jenkins jenkins/jenkins
+helm upgrade --install jenkins jenkins/jenkins -n jenkins
+kubectl exec --namespace jenkins -it svc/jenkins -c jenkins -- /bin/cat /run/secrets/additional/chart-admin-password && echo
 ```

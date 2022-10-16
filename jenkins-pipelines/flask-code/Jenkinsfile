@@ -23,7 +23,7 @@ pipeline {
     stage('Build Image') {
       steps {
         script {
-            dir("flask-code"){
+            dir("jenkins-pipelines/flask-code"){
                app = docker.build("${REPO_NAME}/${APP_NAME}:${IMAGE_TAG}") 
             }
         }
