@@ -11,7 +11,7 @@ spec:
   source: 
     path: flask-manifest
     repoURL: "https://github.com/opeomotayo/playground-dependency.git"
-    targetRevision: master
+    targetRevision: HEAD
     directory:
       recurse: true
   syncPolicy:
