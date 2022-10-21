@@ -1,0 +1,14 @@
+---
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: RunnerDeployment
+metadata:
+  name: self-hosted-runner-deployment
+  namespace: actions
+spec:
+  template:
+    spec:
+      repository: opeomotayo/playground-dependency
+      labels:
+        - my-custom-runner
+      env: []
+

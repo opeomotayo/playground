@@ -1,0 +1,16 @@
+---
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: HorizontalRunnerAutoscaler
+metadata:
+  name: self-hosted-horizontal-runner-autoscaler
+  namespace: actions
+spec:
+  scaleTargetRef:
+    name: self-hosted-runner-deployment
+  scaleDownDelaySecondsAfterScaleOut: 300
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+  - type: TotalNumberOfQueuedAndInProgressWorkflowRuns
+    repositoryNames:
+    - opeomotayo/playground-dependency

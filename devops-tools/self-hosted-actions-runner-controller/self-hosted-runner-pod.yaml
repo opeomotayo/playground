@@ -1,0 +1,9 @@
+---
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: Runner
+metadata:
+  name: self-hosted-runner-pod
+  namespace: actions
+spec:
+  repository: opeomotayo/playground-dependency
+  env: []
