@@ -49,7 +49,7 @@ pipeline {
       steps {
             script {
                 echo "Updating manifest"
-                build job: 'blog-cd', parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER)]
+                build job: 'blog-manifest', parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER)]
             }
         }
       }
