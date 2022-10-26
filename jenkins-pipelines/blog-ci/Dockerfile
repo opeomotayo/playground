@@ -1,4 +1,4 @@
-opeomotayo## Dockerfile that generates an instance of http://opeomotayo.com
+## Dockerfile that generates an instance of http://opeomotayo.com
 
 FROM nginx:latest
 MAINTAINER Ope Omotayo <opeomotayo@gmail.com>
