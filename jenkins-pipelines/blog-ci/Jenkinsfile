@@ -1,7 +1,7 @@
 pipeline {
 
   environment {
-    APP_NAME = "flask-image"
+    APP_NAME = "blog-ci"
     REPO_NAME = "opeomotayo"
     IMAGE_TAG = "${env.BUILD_NUMBER}"
     DOCKER_CRED = "dockerhub"
@@ -13,7 +13,7 @@ pipeline {
 
   agent {
     kubernetes {
-      label 'build-image'
+      label 'ci-pipeline'
       defaultContainer 'docker'
       yamlFile 'build-pod.yaml'
     }
@@ -23,7 +23,7 @@ pipeline {
     stage('Build Image') {
       steps {
         script {
-            dir("jenkins-pipelines/flask-code"){
+            dir("jenkins-pipelines/blog-ci"){
                app = docker.build("${REPO_NAME}/${APP_NAME}:${IMAGE_TAG}") 
             }
         }
@@ -48,8 +48,8 @@ pipeline {
     stage('Trigger Manifest Update') {
       steps {
             script {
-                echo "triggering updatemanifestjob"
-                build job: 'updatemanifest', parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER)]
+                echo "Updating manifest"
+                build job: 'blog-cd', parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER)]
             }
         }
       }
