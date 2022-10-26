@@ -1,4 +1,4 @@
-opeomotayoBlog of Benjamin Cane
+Blog of Ope Omotayo
 =====
 
 Source files of http://bencane.com.

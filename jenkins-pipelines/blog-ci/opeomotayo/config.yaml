@@ -1,4 +1,4 @@
-opeomotayobaseURL: 'https://bencane.com/'
+baseURL: 'https://opeomotayo.com/'
 title: Benjamin Cane
 paginate: 5
 theme: hugo-PaperMod
@@ -29,7 +29,7 @@ params:
     - name: medium
       url: 'https://medium.com/@madflojo'
     - name: linkedin
-      url: 'https://www.linkedin.com/in/bencane/'
+      url: 'https://www.linkedin.com/in/opeomotayo/'
     - name: github
       url: 'https://github.com/madflojo'
 
