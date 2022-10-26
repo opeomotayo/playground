@@ -1,21 +1,20 @@
 ---
-title: "Creating Middleware with httprouter"
-date: 2021-08-08T00:40:06-07:00
+title: "Software Supply Chain Security"
+date: 2022-10-26T00:40:06-07:00
 draft: false
-subtitle: "Using a Golang HTTP Multiplexer to create HTTP middleware."
-summary: "Learn how to use the httprouter Go mux to route your custom handlers HTTP requests and create common functions for all handlers, even those pesky ones like PProf."
-authors: ["Benjamin Cane"]
-tags: ["golang",]
+subtitle: "Secure at every step: What is software supply chain security and why does it matter?"
+summary: "The most important way to protect supply chain threats? Scan code for security vulnerabilities, learn how to find vulnerabilities in code, and quickly patch them with dynamic code analysis tools.."
+authors: ["Ope Omotayo"]
+tags: ["containers",]
 categories: ["Software Engineering"]
 featured: true
-aliases: ["/post/creating-middleware-with-httprouter-a-golang-multiplexer"]
-url: /2021/09/08/creating-middleware-with-httprouter-a-golang-multiplexer
+aliases: ["/posts/software-supply-chain-security"]
+url: /2022/10/26/software-supply-chain-security creating-middleware-with-httprouter-a-golang-multiplexer
 ---
 
-When working with HTTP-based services in Go, many developers (including myself) like to use HTTP Multiplexers (mux). Multiplexers, also sometimes referred to as Request Routers, offer a suite of features and capabilities. The simplest form allows users to register a specific handler 
-function with specific URL patterns and methods.
+Traditionally, a supply chain is anything that’s needed to deliver your product—including all the components you use. For a chocolate bar you buy at the store, it’s the list of ingredients, the packaging, the information on nutritional contents, and maybe information on organic ingredients or production facilities. But it’s also more than that: it’s anything that can affect your delivery of that product, too. A chocolate bar that isn’t refrigerated as it travels through a hot climate will also affect the end product that’s consumed.
 
-One of the more advanced features is using HTTP Multiplexers to create "HTTP middleware." This capability allows users to create a standard function or set of executed functions before requests route to the User-defined handlers. Developers can use these common functions to perform many tasks, from creating a standard logger to handling authentication.
+It’s anything and everything that goes into your software, like code, binaries, and other components, and where they come from, like a repository or a package manager. Your software supply chain includes: who wrote it, when it was contributed, how it’s been reviewed for security issues, known vulnerabilities, supported versions, license information—everything that touches it at any point! Your supply chain also encompasses other parts of your stack beyond a single application, including your build and packaging scripts or the software running the infrastructure your application runs on. A software supply chain also includes any information you want to know about the software you’re running to help you determine any risks in running it.
 
 Today's article will explore using the httprouter HTTP Multiplexer to create a simple HTTP middleware. 
 

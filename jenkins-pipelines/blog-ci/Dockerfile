@@ -1,13 +1,13 @@
-## Dockerfile that generates an instance of http://bencane.com
+opeomotayo## Dockerfile that generates an instance of http://opeomotayo.com
 
 FROM nginx:latest
-MAINTAINER Benjamin Cane <ben@bencane.com>
+MAINTAINER Ope Omotayo <opeomotayo@gmail.com>
 
 ## NGINX custom config
 RUN mkdir -p /etc/nginx/globals && rm -vf /etc/nginx/sites-enabled/*
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
 COPY nginx/htmlglobal.conf /etc/nginx/globals/
-COPY nginx/bencane.com.conf /etc/nginx/sites-enabled/
+COPY nginx/opeomotayo.com.conf /etc/nginx/sites-enabled/
 
 ## Install python and pip
 RUN apt-get update && \
@@ -23,10 +23,10 @@ RUN cd / && curl -L https://github.com/gohugoio/hugo/releases/download/v0.62.1/h
 RUN cd / && curl -L https://github.com/tdewolff/minify/releases/download/v2.7.6/minify_2.7.6_linux_amd64.tar.gz | tar -xvzf-
 
 ## Add blog code nd required files
-ADD bencane /bencane
+ADD opeomotayo /opeomotayo
 
 ## Run Generator
-RUN cd /bencane && /hugo -d /usr/share/nginx/html
+RUN cd /opeomotayo && /hugo -d /usr/share/nginx/html
 RUN mkdir -p /usr/share/nginx/html/feed && cp /usr/share/nginx/html/index.xml /usr/share/nginx/html/feed/
 
 ## Add Resume, Stories, and Index

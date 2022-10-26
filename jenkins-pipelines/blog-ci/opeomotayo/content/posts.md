@@ -4,7 +4,7 @@ date: 2020-10-31T12:01:34-07:00
 draft: false
 ---
 
-## [Distributed Systems are not Consistent Systems](https://slides.com/madflojo/distributed-systems-are-not-consistent-systems)
+## [Distributed Systems are not Consistent Systems](https://https://blog.opeomotayo.net/madflojo/distributed-systems-are-not-consistent-systems)
 
 Consistency is one of the most challenging aspects of building and designing Distributed Systems. This presentation discusses why that challenge exists and explores ways open-source systems have addressed it.
 

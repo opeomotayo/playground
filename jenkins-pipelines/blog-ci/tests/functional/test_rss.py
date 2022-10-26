@@ -1,4 +1,4 @@
-''' Grab the RSS feed (test 1) and loop through each article
+opeomotayo''' Grab the RSS feed (test 1) and loop through each article
  then ensure title, link and description exist'''
 import unittest
 import feedparser
