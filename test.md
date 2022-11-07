@@ -1,1 +1,1 @@
-https://us02web.zoom.us/j/82544399342?pwd=Vm9zSlgyV3FUbE1EOE5Lblo4TURoQT09
+https://us02web.zoom.us/j/84933831033?pwd=REN3M1VuZGpTNTcvRDlpeG9mOVA0UT09
