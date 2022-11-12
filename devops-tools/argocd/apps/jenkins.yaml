@@ -1,26 +1,23 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata: 
-  name: flask-webapp
+  name: jenkins
   namespace: argocd
 spec: 
   destination: 
-    namespace: flask
+    namespace: jenkins
     server: "https://kubernetes.default.svc"
   project: default
   source: 
-    path: flask-manifest
-    repoURL: "https://github.com/opeomotayo/playground-dependency.git"
+    path: devops-tools/charts/jenkins
+    repoURL: "https://github.com/opeomotayo/playground"
     targetRevision: HEAD
     directory:
-      recurse: true
+      recurse: false
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-      - Validation=false
-      - ApplyOutOfSyncOnly=true
-      - PruneLast=true
-      - Replace=true
+
