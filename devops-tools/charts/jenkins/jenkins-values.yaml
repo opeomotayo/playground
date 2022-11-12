@@ -19,3 +19,6 @@ controller:
     - hosts:
       - jenkins.opeomotayo.net
       secretName: jenkins-production-certificate
+
+  additionalPlugins:
+    - blueocean
