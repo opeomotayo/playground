@@ -438,6 +438,8 @@ controller:
       - backend:
           serviceName: jenkins
           servicePort: 8080
+        pathType: Prefix
+        path: "/"
     # - backend:
     #     serviceName: >-
     #       {{ template "jenkins.fullname" . }}
@@ -456,11 +458,11 @@ controller:
     # Set this path to jenkinsUriPrefix above or use annotations to rewrite path
     #  path: "/jenkins"
     # configures the hostname e.g. jenkins.example.com
-    hostName:
-    tls:
-      - secretName: jenkins
-        hosts:
-          - jenkins.opeomotayo.net
+    hostName: jenkins.opeomotayo.net
+    #tls:
+    # - secretName: jenkins
+    #   hosts:
+    #     - jenkins.opeomotayo.net
 
   # often you want to have your controller all locked down and private
   # but you still want to get webhooks from your SCM
