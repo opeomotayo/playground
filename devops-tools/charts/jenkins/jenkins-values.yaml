@@ -22,3 +22,4 @@ controller:
 
   additionalPlugins:
     - blueocean
+    - job-dsl
