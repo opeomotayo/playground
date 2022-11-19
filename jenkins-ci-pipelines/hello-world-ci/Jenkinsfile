@@ -23,7 +23,7 @@ pipeline {
         stage('Build Image') {
             steps {
             script {
-                dir("jenkins-pipelines/hello-world-ci"){
+                dir("jenkins-ci-pipelines/hello-world-ci"){
                     app = docker.build("${REPO_NAME}/${APP_NAME}:${IMAGE_TAG}") 
                 }
             }
@@ -49,14 +49,14 @@ pipeline {
             }
             }
         }
-        // stage('Trigger & Update hello-world-cd') {
-        //     steps {
-        //         script {
-        //             echo "Updating hello-world-cd"
-        //             build job: 'hello-world-cd', parameters: [string(name: 'DOCKERTAG', value: 'latest')] //env.BUILD_NUMBER
-        //         }
-        //     }
-        // }
+        stage('Trigger & Update hello-world-cd') {
+            steps {
+                script {
+                    echo "Updating hello-world-cd"
+                    build job: 'hello-world-cd', parameters: [string(name: 'DOCKERTAG', value: 'latest')] //env.BUILD_NUMBER
+                }
+            }
+        }
     }
 }
 
