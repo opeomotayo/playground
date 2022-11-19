@@ -4,7 +4,7 @@ pipeline {
     APP_NAME = "hello-world-ci"
     REPO_NAME = "opeomotayo"
     IMAGE_TAG = "latest" //"${env.BUILD_NUMBER}"
-    DOCKERHUB_CRED = credentials('dockerhub-cred') //DOCKER_CRED = "dockerhub"
+    DOCKERHUB_CRED = 'dockerhub-cred' //credentials('dockerhub-cred') //DOCKER_CRED = "dockerhub"
   }
 
   options {
