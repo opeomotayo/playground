@@ -15,7 +15,7 @@ pipeline {
     kubernetes {
       label 'ci-pipeline'
       defaultContainer 'docker'
-      yamlFile 'jenkins-ci-pipelines/build-pod.yaml'
+      yamlFile 'build-pod.yaml'
     }
   }
 
