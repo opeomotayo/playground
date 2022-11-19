@@ -26,7 +26,7 @@ pipeline {
                 dir("jenkins-ci-pipelines/hello-world-ci"){
                     sh "pwd"
                     sh "docker ps"
-                    // app = docker.build("${REPO_NAME}/${APP_NAME}:${IMAGE_TAG}") 
+                    sh "app = docker.build("${REPO_NAME}/${APP_NAME}:${IMAGE_TAG}")"
                 }
             }
             }
