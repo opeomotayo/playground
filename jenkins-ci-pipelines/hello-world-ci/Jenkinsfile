@@ -24,7 +24,8 @@ pipeline {
             steps {
             script {
                 dir("jenkins-ci-pipelines/hello-world-ci"){
-                    app = docker.build("${REPO_NAME}/${APP_NAME}:${IMAGE_TAG}") 
+                    sh "pwd"
+                    // app = docker.build("${REPO_NAME}/${APP_NAME}:${IMAGE_TAG}") 
                 }
             }
             }
@@ -39,9 +40,10 @@ pipeline {
         stage('Push Image') {
             steps {
             script {
-                docker.withRegistry("https://registry.hub.docker.com", "${DOCKERHUB_CRED}") {
-                    app.push("${IMAGE_TAG}")
-                }
+                sh "ls -la"
+                // docker.withRegistry("https://registry.hub.docker.com", "${DOCKERHUB_CRED}") {
+                //     app.push("${IMAGE_TAG}")
+                // }
                 // withCredentials([string(credentialsId: 'DOCKERHUB_CRED', variable: 'dockerhubpwd')]) {
                 //     sh 'docker login -u devopshint -p ${dockerhubpwd}'
                 // }  
