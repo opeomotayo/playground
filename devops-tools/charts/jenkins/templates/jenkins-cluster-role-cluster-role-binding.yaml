@@ -6,7 +6,7 @@ metadata:
     rbac.authorization.kubernetes.io/autoupdate: "true"
   labels:
     kubernetes.io/bootstrapping: rbac-defaults
-  name: jenkins
+  name: jenkins-cr
 rules:
 - apiGroups:
   - '*'
@@ -60,11 +60,11 @@ metadata:
     rbac.authorization.kubernetes.io/autoupdate: "true"
   labels:
     kubernetes.io/bootstrapping: rbac-defaults
-  name: jenkins
+  name: jenkins-crb
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: jenkins
+  name: jenkins-cr
 subjects:
 - apiGroup: rbac.authorization.k8s.io
   kind: Group
