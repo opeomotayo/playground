@@ -62,7 +62,7 @@ pipeline {
             steps {
                 script {
                     echo "Updating hello-world-cd"
-                    build job: 'hello-world-cd', parameters: [string(name: 'DOCKERTAG', value: 'latest')] //env.BUILD_NUMBER
+                    build job: 'hello-world-cd', parameters: [string(name: 'IMAGE_TAG', value: 'latest')] //env.BUILD_NUMBER
                 }
             }
         }
