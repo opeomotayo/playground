@@ -1,9 +1,8 @@
 pipeline {
 
   environment {
-    APP_NAME = "hello-world"
-    REPO_NAME = "opeomotayo"
-    IMAGE_TAG = "latest" //"${env.BUILD_NUMBER}"
+    IMAGE_NAME = 'opeomotayo/hello-world'
+    IMAGE_TAG = 'latest' //"${env.BUILD_NUMBER}"
     DOCKERHUB_CRED = 'dockerhub-cred' //credentials('dockerhub-cred') //DOCKER_CRED = "dockerhub"
   }
 
@@ -20,12 +19,18 @@ pipeline {
   }
 
     stages {
+        stage('Delete Image If Exists') {
+            steps {
+                sh 'docker rmi $IMAGE_NAME:$IMAGE_TAG || (echo "Image $IMAGE_NAME:$IMAGE_VERSION does not exist so not removed."; exit 0)'
+                sh 'docker system prune -a --volumes --force'
+            }
+        }
         stage('Build Image') {
             steps {
             script {
                 dir("jenkins-ci-pipelines/hello-world-ci"){
                     // sh "docker build -t ${REPO_NAME}/${APP_NAME}:${IMAGE_TAG} ."
-                    app = docker.build("${REPO_NAME}/${APP_NAME}:${IMAGE_TAG}")
+                    app = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
                 }
             }
             }
@@ -47,7 +52,7 @@ pipeline {
                 //     sh 'docker login -u opeomotayo -p ${dockerhubpwd}'
                 // }  
                 // docker.withRegistry("https://registry.hub.docker.com", "${DOCKERHUB_CRED}") {
-                //     sh "docker push ${REPO_NAME}/${APP_NAME}:${IMAGE_TAG}"
+                //     sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
                 // }
                 
             }
@@ -63,49 +68,3 @@ pipeline {
         }
     }
 }
-
-// pipeline{
-//     agent any
-//     stages {
-//         stage('Build Maven') {
-//             steps{
-//                 checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'devopshint', url: 'https://github.com/devopshint/jenkins...]]])
-
-             
-//             }
-//         }
-//         stage('Build Docker Image') {
-//             steps {
-//                 script {
-//                   sh 'docker build -t devopshint/nodejsapp-1.0:latest .'
-//                 }
-//             }
-//         }
-//         stage('Deploy Docker Image') {
-//             steps {
-//                 script {
-//                  withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
-//                     sh 'docker login -u devopshint -p ${dockerhubpwd}'
-//                  }  
-//                  sh 'docker push devopshint/nodejsapp-1.0:latest'
-//                 }
-//             }
-//         }
-    
-//     stage('Deploy App on k8s') {
-//       steps {
-//             sshagent(['k8s']) {
-//             sh "scp -o StrictHostKeyChecking=no nodejsapp.yaml ubuntu@IPofk8scluster:/home/ubuntu"
-//             script {
-//                 try{
-//                     sh "ssh ubuntu@IPofk8scluster kubectl create -f ."
-//                 }catch(error){
-//                     sh "ssh ubuntu@IPofk8scluster kubectl create -f ."
-//             }
-// }
-//         }
-      
-//     }
-//     }
-//     }
-// }
