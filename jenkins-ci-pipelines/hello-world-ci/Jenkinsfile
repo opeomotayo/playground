@@ -35,8 +35,9 @@ pipeline {
             steps{
                 
                 script{
-                    
+                    dir("jenkins-ci-pipelines/hello-world-ci"){
                     sh 'mvn test'
+                    }
                 }
             }
         }
@@ -45,8 +46,9 @@ pipeline {
             steps{
                 
                 script{
-                    
+                    dir("jenkins-ci-pipelines/hello-world-ci"){
                     sh 'mvn verify -DskipUnitTests'
+                    }
                 }
             }
         }
@@ -55,8 +57,9 @@ pipeline {
             steps{
                 
                 script{
-                    
+                    dir("jenkins-ci-pipelines/hello-world-ci"){
                     sh 'mvn clean install'
+                    }
                 }
             }
         }
@@ -65,10 +68,11 @@ pipeline {
             steps{
                 
                 script{
-                    
+                    dir("jenkins-ci-pipelines/hello-world-ci"){
                     withSonarQubeEnv('sonarqube-server') {
                         
                         sh 'mvn clean package sonar:sonar'
+                    }
                     }
                    }
                     
@@ -79,8 +83,9 @@ pipeline {
                 steps{
                     
                     script{
-                        
+                        dir("jenkins-ci-pipelines/hello-world-ci"){
                         waitForQualityGate abortPipeline: false, credentialsId: 'sonar-api'
+                        }
                     }
                 }
             }
