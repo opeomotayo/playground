@@ -25,6 +25,20 @@ pipeline {
                 sh 'docker system prune -a --volumes --force'
             }
         }
+        stage('Code Quality Test With Sonarqube') {
+            steps {
+                dir('jenkins-ci-pipelines/hello-world-ci'){
+                    container('maven'){
+                        withSonarQubeEnv(installationName: 'sonarqube') {
+                        sh 'mvn clean org.sonarsource.scanner.maven:sonar-maven-plugin.3.9.0.2155:sonar'
+                        }
+                        timeout(time: 10, unit: 'MINUTES') {
+                            waitForQualityGate abortPipeline: true
+                        }
+                    }
+                }
+            }
+        }
         stage('Build Image') {
             steps {
             script {
@@ -35,17 +49,15 @@ pipeline {
             }
             }
         }
-        // stage('Sonarqube Test') {
-        //     environment {
-        //         scannerHome = tool 'sonarqube-scanner'
-        //     }
+        // stage('Unit Test') {
         //     steps {
-        //         withSonarQubeEnv('sonarqube') {
-        //             sh "java -version"
-        //             sh "${scannerHome}/bin/sonar-scanner"
-        //         }
-        //         timeout(time: 10, unit: 'MINUTES') {
-        //             waitForQualityGate abortPipeline: true
+        //         container('security-tools'){
+        //             withSonarQubeEnv(installationName: 'sonarqube') {
+        //             sh 'mvn clean package -Dcheckstyle.skip'
+        //             }
+        //             timeout(time: 10, unit: 'MINUTES') {
+        //                 waitForQualityGate abortPipeline: true
+        //             }
         //         }
         //     }
         // }
