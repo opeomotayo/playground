@@ -13,7 +13,7 @@ pipeline {
   agent {
     kubernetes {
       label 'ci-pipeline'
-      defaultContainer 'docker'
+      defaultContainer 'maven'
       yamlFile 'build-pod.yaml'
     }
   }
