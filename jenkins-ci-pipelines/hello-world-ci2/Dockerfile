@@ -1,8 +1,10 @@
-FROM node:14
-WORKDIR /usr/src/app
-COPY package*.json ./
-RUN npm install
-RUN npm install express
-COPY . .
+FROM node:18 AS build-env
+ADD . /app
+WORKDIR /app
+RUN npm install --omit=dev
+
+FROM gcr.io/distroless/nodejs18-debian11
+COPY --from=build-env /app /app
+WORKDIR /app
 EXPOSE 3000
-CMD [ "node", "server.js" ]
+CMD ["hello_express.js"]

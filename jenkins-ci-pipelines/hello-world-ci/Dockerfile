@@ -1,10 +1,10 @@
-FROM node:18 AS build-env
-ADD . /app
+FROM openjdk:11-jdk-slim-bullseye AS build-env
+COPY . /app/examples
 WORKDIR /app
-RUN npm install --omit=dev
+RUN javac examples/*.java
+RUN jar cfe main.jar examples.HelloJava examples/*.class 
 
-FROM gcr.io/distroless/nodejs18-debian11
+FROM gcr.io/distroless/java11-debian11
 COPY --from=build-env /app /app
 WORKDIR /app
-EXPOSE 3000
-CMD ["hello_express.js"]
+CMD ["main.jar"]
