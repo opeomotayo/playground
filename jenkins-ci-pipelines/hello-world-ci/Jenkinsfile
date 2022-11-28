@@ -28,7 +28,7 @@ pipeline {
         stage('Build Image') {
             steps {
             script {
-                dir("jenkins-ci-pipelines/hello-world-ci"){
+                dir("jenkins-ci-pipelines/hello-world-ci/node-express"){
                     // sh "docker build -t ${REPO_NAME}/${APP_NAME}:${IMAGE_TAG} ."
                     app = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
                 }
