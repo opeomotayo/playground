@@ -1,0 +1,94 @@
+pipeline {
+
+  environment {
+    IMAGE_NAME = 'opeomotayo/hello-world'
+    IMAGE_TAG = "${env.BUILD_NUMBER}"
+    DOCKERHUB_CRED = 'dockerhub-cred' //credentials('dockerhub-cred') //DOCKER_CRED = "dockerhub"
+  }
+
+  options {
+      buildDiscarder(logRotator(numToKeepStr: '3'))
+   }
+
+  agent {
+    kubernetes {
+      label 'ci-pipeline'
+      defaultContainer 'maven'
+      yamlFile 'build-pod.yaml'
+    }
+  }
+    
+    stages {
+        
+        // stage('Git Checkout'){
+            
+        //     steps{
+                
+        //         script{
+                    
+        //             git branch: 'main', url: 'https://github.com/vikash-kumar01/mrdevops_javaapplication.git'
+        //         }
+        //     }
+        // }
+        stage('UNIT testing'){
+            
+            steps{
+                
+                script{
+                    dir("jenkins-ci-pipelines/hello-world-ci"){
+                    sh 'mvn test'
+                    }
+                }
+            }
+        }
+        stage('Integration testing'){
+            
+            steps{
+                
+                script{
+                    dir("jenkins-ci-pipelines/hello-world-ci"){
+                    sh 'mvn verify -DskipUnitTests'
+                    }
+                }
+            }
+        }
+        stage('Maven build'){
+            
+            steps{
+                
+                script{
+                    dir("jenkins-ci-pipelines/hello-world-ci"){
+                    sh 'mvn clean install'
+                    }
+                }
+            }
+        }
+        stage('Static code analysis'){
+            
+            steps{
+                
+                script{
+                    dir("jenkins-ci-pipelines/hello-world-ci"){
+                    withSonarQubeEnv('sonarqube-server') {
+                        
+                        sh 'mvn clean package sonar:sonar'
+                    }
+                    }
+                   }
+                    
+                }
+            }
+            stage('Quality Gate Status'){
+                
+                steps{
+                    
+                    script{
+                        dir("jenkins-ci-pipelines/hello-world-ci"){
+                        waitForQualityGate abortPipeline: false, credentialsId: 'sonar-api'
+                        }
+                    }
+                }
+            }
+        }
+        
+}
