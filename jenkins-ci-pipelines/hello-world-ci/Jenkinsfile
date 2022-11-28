@@ -2,7 +2,7 @@ pipeline {
 
   environment {
     IMAGE_NAME = 'opeomotayo/hello-world'
-    IMAGE_TAG = 'latest' //"${env.BUILD_NUMBER}"
+    IMAGE_TAG = "${env.BUILD_NUMBER}"
     DOCKERHUB_CRED = 'dockerhub-cred' //credentials('dockerhub-cred') //DOCKER_CRED = "dockerhub"
   }
 
@@ -62,7 +62,7 @@ pipeline {
             steps {
                 script {
                     echo "Updating hello-world-cd"
-                    build job: 'hello-world-cd', parameters: [string(name: 'IMAGE_TAG', value: 'latest')] //env.BUILD_NUMBER
+                    build job: 'hello-world-cd', parameters: [string(name: 'IMAGE_TAG', value: "${IMAGE_TAG}")] //env.BUILD_NUMBER
                 }
             }
         }
