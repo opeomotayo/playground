@@ -1,0 +1,111 @@
+pipeline {
+
+  environment {
+    APP_NAME = "hello-world"
+    REPO_NAME = "opeomotayo"
+    IMAGE_TAG = "latest" //"${env.BUILD_NUMBER}"
+    DOCKERHUB_CRED = 'dockerhub-cred' //credentials('dockerhub-cred') //DOCKER_CRED = "dockerhub"
+  }
+
+  options {
+      buildDiscarder(logRotator(numToKeepStr: '3'))
+   }
+
+  agent {
+    kubernetes {
+      label 'ci-pipeline'
+      defaultContainer 'docker'
+      yamlFile 'build-pod.yaml'
+    }
+  }
+
+    stages {
+        stage('Build Image') {
+            steps {
+            script {
+                dir("jenkins-ci-pipelines/hello-world-ci"){
+                    // sh "docker build -t ${REPO_NAME}/${APP_NAME}:${IMAGE_TAG} ."
+                    app = docker.build("${REPO_NAME}/${APP_NAME}:${IMAGE_TAG}")
+                }
+            }
+            }
+        }
+        stage('Test') {
+            steps {
+            script {
+                sh 'echo "Tests passed"'
+            }  
+            }
+        }
+        stage('Push Image') {
+            steps {
+            script {
+                docker.withRegistry("https://registry.hub.docker.com", "${DOCKERHUB_CRED}") {
+                    app.push("${IMAGE_TAG}")
+                }
+                // withCredentials([string(credentialsId: 'DOCKERHUB_CRED', variable: 'dockerhubpwd')]) {
+                //     sh 'docker login -u opeomotayo -p ${dockerhubpwd}'
+                // }  
+                // docker.withRegistry("https://registry.hub.docker.com", "${DOCKERHUB_CRED}") {
+                //     sh "docker push ${REPO_NAME}/${APP_NAME}:${IMAGE_TAG}"
+                // }
+                
+            }
+            }
+        }
+        stage('Trigger & Update hello-world-cd') {
+            steps {
+                script {
+                    echo "Updating hello-world-cd"
+                    build job: 'hello-world-cd', parameters: [string(name: 'DOCKERTAG', value: 'latest')] //env.BUILD_NUMBER
+                }
+            }
+        }
+    }
+}
+
+// pipeline{
+//     agent any
+//     stages {
+//         stage('Build Maven') {
+//             steps{
+//                 checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'devopshint', url: 'https://github.com/devopshint/jenkins...]]])
+
+             
+//             }
+//         }
+//         stage('Build Docker Image') {
+//             steps {
+//                 script {
+//                   sh 'docker build -t devopshint/nodejsapp-1.0:latest .'
+//                 }
+//             }
+//         }
+//         stage('Deploy Docker Image') {
+//             steps {
+//                 script {
+//                  withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
+//                     sh 'docker login -u devopshint -p ${dockerhubpwd}'
+//                  }  
+//                  sh 'docker push devopshint/nodejsapp-1.0:latest'
+//                 }
+//             }
+//         }
+    
+//     stage('Deploy App on k8s') {
+//       steps {
+//             sshagent(['k8s']) {
+//             sh "scp -o StrictHostKeyChecking=no nodejsapp.yaml ubuntu@IPofk8scluster:/home/ubuntu"
+//             script {
+//                 try{
+//                     sh "ssh ubuntu@IPofk8scluster kubectl create -f ."
+//                 }catch(error){
+//                     sh "ssh ubuntu@IPofk8scluster kubectl create -f ."
+//             }
+// }
+//         }
+      
+//     }
+//     }
+//     }
+// }
