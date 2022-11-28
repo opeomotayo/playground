@@ -6,6 +6,10 @@ pipeline {
     DOCKERHUB_CRED = 'dockerhub-cred' //credentials('dockerhub-cred') //DOCKER_CRED = "dockerhub"
   }
 
+  tools {
+    jdk 'jdk-8'
+  }
+
   options {
       buildDiscarder(logRotator(numToKeepStr: '3'))
    }
@@ -41,6 +45,7 @@ pipeline {
             }
             steps {
                 withSonarQubeEnv('sonarqube') {
+                    sh "java -version"
                     sh "${scannerHome}/bin/sonar-scanner"
                 }
                 timeout(time: 10, unit: 'MINUTES') {
