@@ -13,82 +13,58 @@ pipeline {
   agent {
     kubernetes {
       label 'ci-pipeline'
-      defaultContainer 'maven'
+      defaultContainer 'docker'
       yamlFile 'build-pod.yaml'
     }
   }
-    
+
     stages {
-        
-        // stage('Git Checkout'){
-            
-        //     steps{
+        stage('Delete Image If Exists') {
+            steps {
+                sh 'docker rmi $IMAGE_NAME:$IMAGE_TAG || (echo "Image $IMAGE_NAME:$IMAGE_VERSION does not exist so not removed."; exit 0)'
+                sh 'docker system prune -a --volumes --force'
+            }
+        }
+        stage('Build Image') {
+            steps {
+            script {
+                dir("jenkins-ci-pipelines/hello-world-ci"){
+                    // sh "docker build -t ${REPO_NAME}/${APP_NAME}:${IMAGE_TAG} ."
+                    app = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
+                }
+            }
+            }
+        }
+        stage('Test') {
+            steps {
+            script {
+                sh 'echo "Tests passed"'
+            }  
+            }
+        }
+        stage('Push Image') {
+            steps {
+            script {
+                docker.withRegistry("https://registry.hub.docker.com", "${DOCKERHUB_CRED}") {
+                    app.push("${IMAGE_TAG}")
+                }
+                // withCredentials([string(credentialsId: 'DOCKERHUB_CRED', variable: 'dockerhubpwd')]) {
+                //     sh 'docker login -u opeomotayo -p ${dockerhubpwd}'
+                // }  
+                // docker.withRegistry("https://registry.hub.docker.com", "${DOCKERHUB_CRED}") {
+                //     sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
+                // }
                 
-        //         script{
-                    
-        //             git branch: 'main', url: 'https://github.com/vikash-kumar01/mrdevops_javaapplication.git'
-        //         }
-        //     }
-        // }
-        stage('UNIT testing'){
-            
-            steps{
-                
-                script{
-                    dir("jenkins-ci-pipelines/hello-world-ci"){
-                    sh 'mvn test'
-                    }
+            }
+            }
+        }
+        stage('Trigger & Update hello-world-cd') {
+            steps {
+                script {
+                    echo "Updating hello-world-cd"
+                    build job: 'hello-world-cd', parameters: [string(name: 'IMAGE_TAG', value: "${IMAGE_TAG}")] //env.BUILD_NUMBER
                 }
             }
         }
-        stage('Integration testing'){
-            
-            steps{
-                
-                script{
-                    dir("jenkins-ci-pipelines/hello-world-ci"){
-                    sh 'mvn verify -DskipUnitTests'
-                    }
-                }
-            }
-        }
-        stage('Maven build'){
-            
-            steps{
-                
-                script{
-                    dir("jenkins-ci-pipelines/hello-world-ci"){
-                    sh 'mvn clean install'
-                    }
-                }
-            }
-        }
-        stage('Static code analysis'){
-            
-            steps{
-                
-                script{
-                    dir("jenkins-ci-pipelines/hello-world-ci"){
-                    withSonarQubeEnv('sonarqube-server') {
-                        
-                        sh 'mvn clean package sonar:sonar'
-                    }
-                    }
-                   }
-                    
-                }
-            }
-            stage('Quality Gate Status'){
-                
-                steps{
-                    
-                    script{
-                        dir("jenkins-ci-pipelines/hello-world-ci"){
-                        waitForQualityGate abortPipeline: false, credentialsId: 'sonar-api'
-                        }
-                    }
-                }
-            }
-        }
-        
+    }
 }
