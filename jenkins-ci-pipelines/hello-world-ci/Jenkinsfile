@@ -35,11 +35,17 @@ pipeline {
             }
             }
         }
-        stage('Test') {
+        stage('Sonarqube Test') {
+            environment {
+                scannerHome = tool 'sonarqube-scanner'
+            }
             steps {
-            script {
-                sh 'echo "Tests passed"'
-            }  
+                withSonarQubeEnv('sonarqube') {
+                    sh "${scannerHome}/bin/sonar-scanner"
+                }
+                timeout(time: 10, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
             }
         }
         stage('Push Image') {
