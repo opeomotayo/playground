@@ -6,10 +6,6 @@ pipeline {
     DOCKERHUB_CRED = 'dockerhub-cred' //credentials('dockerhub-cred') //DOCKER_CRED = "dockerhub"
   }
 
-  tools {
-    jdk 'jdk-8'
-  }
-
   options {
       buildDiscarder(logRotator(numToKeepStr: '3'))
    }
