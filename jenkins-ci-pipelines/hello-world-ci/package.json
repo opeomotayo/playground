@@ -1,11 +1,14 @@
 {
-  "name": "nodejs",
+  "name": "distroless-express",
   "version": "1.0.0",
-  "description": "Example",
-  "main": "hello.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "description": "Distroless express node.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GoogleContainerTools/distroless.git"
   },
-  "author": "",
+  "dependencies": {
+    "express": "4.18.1"
+  },
+  "author": "Bryant Hagadorn",
   "license": "ISC"
 }
