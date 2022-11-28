@@ -1,6 +1,22 @@
-pipeline{
-    
-    agent any 
+pipeline {
+
+  environment {
+    IMAGE_NAME = 'opeomotayo/hello-world'
+    IMAGE_TAG = "${env.BUILD_NUMBER}"
+    DOCKERHUB_CRED = 'dockerhub-cred' //credentials('dockerhub-cred') //DOCKER_CRED = "dockerhub"
+  }
+
+  options {
+      buildDiscarder(logRotator(numToKeepStr: '3'))
+   }
+
+  agent {
+    kubernetes {
+      label 'ci-pipeline'
+      defaultContainer 'docker'
+      yamlFile 'build-pod.yaml'
+    }
+  }
     
     stages {
         
