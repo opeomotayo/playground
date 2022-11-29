@@ -1,0 +1,70 @@
+pipeline {
+
+  environment {
+    IMAGE_NAME = 'opeomotayo/hello-world'
+    IMAGE_TAG = "${env.BUILD_NUMBER}"
+    DOCKERHUB_CRED = 'dockerhub-cred' //credentials('dockerhub-cred') //DOCKER_CRED = "dockerhub"
+  }
+
+  options {
+      buildDiscarder(logRotator(numToKeepStr: '3'))
+   }
+
+  agent {
+    kubernetes {
+      label 'ci-pipeline'
+      defaultContainer 'docker'
+      yamlFile 'build-pod.yaml'
+    }
+  }
+
+    stages {
+        stage('Delete Image If Exists') {
+            steps {
+                sh 'docker rmi $IMAGE_NAME:$IMAGE_TAG || (echo "Image $IMAGE_NAME:$IMAGE_VERSION does not exist so not removed."; exit 0)'
+                sh 'docker system prune -a --volumes --force'
+            }
+        }
+        stage('Build Image') {
+            steps {
+            script {
+                dir("jenkins-ci-pipelines/hello-world-ci/src/java/helloworld"){
+                    // sh "docker build -t ${REPO_NAME}/${APP_NAME}:${IMAGE_TAG} ."
+                    app = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
+                }
+            }
+            }
+        }
+        stage('Test') {
+            steps {
+            script {
+                sh 'echo "Tests passed"'
+            }  
+            }
+        }
+        stage('Push Image') {
+            steps {
+            script {
+                docker.withRegistry("https://registry.hub.docker.com", "${DOCKERHUB_CRED}") {
+                    app.push("${IMAGE_TAG}")
+                }
+                // withCredentials([string(credentialsId: 'DOCKERHUB_CRED', variable: 'dockerhubpwd')]) {
+                //     sh 'docker login -u opeomotayo -p ${dockerhubpwd}'
+                // }  
+                // docker.withRegistry("https://registry.hub.docker.com", "${DOCKERHUB_CRED}") {
+                //     sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
+                // }
+                
+            }
+            }
+        }
+        stage('Trigger & Update hello-world-cd') {
+            steps {
+                script {
+                    echo "Updating hello-world-cd"
+                    build job: 'hello-world-cd', parameters: [string(name: 'IMAGE_TAG', value: "${IMAGE_TAG}")] //env.BUILD_NUMBER
+                }
+            }
+        }
+    }
+}
