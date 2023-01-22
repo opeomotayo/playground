@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata  :
-  name: groovy-csp
-data:
-  1-csp.groovy: |-
-    import jenkins.model.Jenkins
-
-    System.setProperty("hudson.model.DirectoryBrowserSupport.CSP", "sandbox allow-scripts allow-same-origin; default-src 'self' *.build.n-able.dev 'unsafe-inline' 'unsafe-eval';");

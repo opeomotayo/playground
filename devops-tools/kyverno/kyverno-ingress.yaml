@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kyverno-ingress
+  namespace: policy-reporter
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    # nginx.ingress.kubernetes.io/backend-protocol: "https"
+spec:
+  rules:
+  - host: kyverno-policy-reporter.opeomotayo.net
+    http:
+      paths:
+      - backend:
+          service:
+            name: policy-reporter-ui
+            port:
+              number: 8080
+        path: /
+        pathType: Prefix

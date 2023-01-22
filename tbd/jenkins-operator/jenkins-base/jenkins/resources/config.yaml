@@ -1,3 +1,0 @@
-varReference:
-    - path: spec/groups/rules/alert
-      kind: PrometheusRule
