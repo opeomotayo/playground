@@ -1,6 +1,6 @@
-library identifier: 'jenkins-sharedlib-release@master', retriever: modernSCM([$class: 'GitSCMSource',
+<!-- library identifier: 'jenkins-sharedlib-release@master', retriever: modernSCM([$class: 'GitSCMSource',
 	remote: 'https://github.com/lbg-gcp-foundation/jenkins-sharedlib-release.git',
-	credentialsId: 'vbpFrcGitHubApp'])
+	credentialsId: 'vbpFrcGitHubApp']) -->
 
 def config = [
     repoName: 'actions-runner-controller',
