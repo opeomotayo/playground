@@ -1,0 +1,74 @@
+replicaCount: 3
+syncPeriod: 5m
+webhookPort: 15017
+authSecret:
+  enabled: true
+  create: false
+  name: "controller-manager"
+image:
+  repository: "harbor.mgmt-bld.oncp.dev/platform_tools/summerwind/actions-runner-controller"
+  tag: 'v0.27.0'
+  actionsRunnerRepositoryAndTag: "harbor.mgmt-bld.oncp.dev/platform_tools/summerwind/actions-runner:v2.300.2-ubuntu-22.04"
+  dindSidecarRepositoryAndTag: "harbor.mgmt-bld.oncp.dev/platform_tools_rtl/docker-dind-gcloud:release_v3.20.0"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 2000
+
+podAnnotations:
+  kubernetes.io/psp: gce.privileged
+  seccomp.security.alpha.kubernetes.io/pod: runtime/default
+
+securityContext:
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
+  runAsNonRoot: true
+  runAsUser: 1000
+
+# Metrics service resource
+metrics:
+  serviceAnnotations: {}
+  serviceMonitor: false
+  serviceMonitorLabels: {}
+  port: 8443
+  proxy:
+    enabled: true
+    image:
+      repository: gcr.io/kubebuilder/kube-rbac-proxy
+      tag: v0.13.0
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    cpu: 1000m
+    memory: 1024Mi
+
+env:
+  http_proxy: "http://ep.threatpulse.net:80"
+  https_proxy: "http://ep.threatpulse.net:80"
+  no_proxy: "172.0.0.0/8,.google.com,.googleapis.com,.cloudendpointsapis.com,.oncp.dev,.cluster.local"
+
+# The additional volume is there to add the WSS CA to the actions-runner-controller pods
+additionalVolumes:
+- name: wssca
+  configMap:
+    name: wssca
+
+additionalVolumeMounts:
+- name: wssca
+  mountPath: /etc/pki/tls/certs
+
+certManagerEnabled: true
+githubWebhookServer:
+  enabled: true
+  queueLimit: 10
+  secret:
+    enabled: true
+    name: controller-manager
+  service:
+    type: ClusterIP

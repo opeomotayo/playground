@@ -1,0 +1,5 @@
+repository: android-dev-team
+workstream: android
+autoscaling:
+  totalNumberOfQueuedAndInProgressWorkflowRuns:
+    enabled: true
